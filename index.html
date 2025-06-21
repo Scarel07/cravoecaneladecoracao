@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Cravo e Canela - Decoração de Casamentos</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        :root {
+            --primary-color: rgba(22, 78, 50, 0.95);
+            --secondary-color: #3D4045;
+            --background-light: #e6d990;
+            --accent-color: #e6d990;
+            --text-color: rgba(22, 78, 50, 0.95);
+            --white-color: #ffffff;
+            --font-primary: 'Playfair Display', serif;
+            --font-secondary: 'Lato', sans-serif;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-secondary);
+            background: var(--background-light);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        nav {
+            background-color: transparent;
+            color: var(--white-color);
+            padding: 20px 40px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+        }
+        
+        nav.scrolled {
+            background-color: var(--primary-color);
+            padding: 15px 40px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(5px);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--white-color);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .btn-orcamento {
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 12px 25px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn-orcamento:hover {
+            background-color: #f0e6a8;
+            transform: scale(1.05);
+        }
+
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background-color: rgba(22, 78, 50, 0.25);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .logo-img {
+            width: 250px;
+            max-width: 80%;
+            filter: drop-shadow(2px 3px 8px rgba(0, 0, 0, 0.5));
+        }
+
+        section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 120px 40px;
+        }
+
+        h2 {
+            font-family: var(--font-primary);
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .content-section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .content-section:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .text-content {
+            flex: 1 1 45%;
+            font-size: 1.1rem;
+        }
+
+        .text-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .text-content h4 {
+            font-family: var(--font-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+            line-height: 1.7;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .imagem-extra {
+            flex: 1 1 45%;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .imagem-extra:hover {
+            transform: scale(1.03) translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-overlay i {
+            font-size: 50px;
+            color: var(--white-color);
+        }
+
+        .testimonials-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            padding: 30px;
+            background-color: var(--white-color);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        .testimonial-slide {
+            display: none;
+            text-align: center;
+            animation: fadeInTestimonial 0.8s ease;
+        }
+        .testimonial-slide.active {
+            display: block;
+        }
+        .testimonial-text {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .testimonial-author {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .dots-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: #ccc;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .dot.active {
+            background-color: var(--primary-color);
+        }
+        @keyframes fadeInTestimonial {
+            from { opacity: 0.3; }
+            to { opacity: 1; }
+        }
+
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: var(--font-secondary);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(22, 78, 50, 0.2);
+        }
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+        .form-submit-btn {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border: none;
+            padding: 15px 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            align-self: center;
+        }
+        .form-submit-btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            color: var(--white-color);
+            text-align: center;
+            padding: 60px 20px;
+            margin-top: 80px;
+        }
+        .social-icons {
+            margin-bottom: 20px;
+        }
+        .social-icons a {
+            color: var(--white-color);
+            font-size: 2rem;
+            margin: 0 15px;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+        .social-icons a:hover {
+            color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+        footer p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2.5rem;
+            }
+            section {
+                padding: 80px 20px;
+            }
+            nav {
+                flex-direction: column;
+                padding: 15px;
+            }
+            nav ul {
+                margin-top: 15px;
+                gap: 15px;
+            }
+            .content-section, .content-section:nth-child(even) {
+                flex-direction: column;
+            }
+            .imagem-extra {
+                width: 100%;
+                max-width: 400px;
+                align-self: center;
+            }
+        }
+        @media (max-width: 480px) {
+            nav { display: none; }
+            h2 { font-size: 2rem; }
+        }
+
+        @media (max-width: 768px) {
+    .hero {
+        height: 100vh;
+    }
+
+    .video-container video {
+        object-fit: cover;
+        min-height: 100%;
+        min-width: 100%;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+        position: absolute;
+    }
+
+    .header-content {
+        padding: 0 20px;
+    }
+
+    .logo-img {
+        max-width: 90%;
+        width: auto;
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-img {
+        max-width: 80%;
+    }
+
+    .video-container video {
+        object-fit: cover;
+    }
+
+    .btn-orcamento {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <ul>
+        <li><a href="#sobre">Quem Somos</a></li>
+        <li><a href="#servicos">O que Fazemos</a></li>
+        <li><a href="#galeria">Galeria</a></li>
+        <li><a href="#contato">Contato</a></li>
+    </ul>
+    <button class="btn-orcamento" onclick="document.getElementById('contato').scrollIntoView({ behavior: 'smooth' });">
+        Solicitar Orçamento
+    </button>
+</nav>
+<header class="hero" style="background-image: url('https://i.imgur.com/lRip6OH.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="overlay"></div>
+    <div class="header-content fade-in">
+        <img src="https://i.imgur.com/cb0CwT4.png" alt="Logo da Floricultura Cravo e Canela" class="logo-img">
+    </div>
+</header>
+
+
+<main>
+    <section id="sobre" class="content-section">
+        <div class="text-content fade-in">
+            <h2>Quem Somos</h2>
+            <p>Com mais de 20 anos de experiência e uma paixão por transformar sonhos em realidade, a Cravo e Canela cria decorações únicas e memoráveis. Cada detalhe é pensado com carinho para refletir a história e a personalidade de cada casal, resultando em eventos que encantam e emocionam.</p>
+        </div>
+       <img src="https://i.imgur.com/IHNaebo.jpeg" alt="Noiva feliz com a decoração da Cravo e Canela">
+
+    </section>
+
+    <section id="servicos" class="content-section">
+        <div class="text-content fade-in">
+            <h2>O que Fazemos</h2>
+            <h4>Decoração completa de cerimônias e recepções</h4>
+            <h4>Buquês e arranjos florais personalizados</h4>
+            <h4>Criação de ambientes temáticos e imersivos</h4>
+            <h4>Decoração para noivados, chás e mini weddings</h4>
+            <h4>Produção floral exclusiva para ensaios fotográficos</h4>
+        </div>
+      <img src="https://i.imgur.com/81tlTcH.jpeg" alt="Imagem da decoração Cravo e Canela">
+
+    </section>
+    
+    <section class="content-section">
+        <div class="text-content fade-in">
+            <h2>Nossos Diferenciais</h2>
+            <h4>Atendimento atencioso e totalmente personalizado</h4>
+            <h4>Seleção rigorosa das flores mais frescas e nobres</h4>
+            <h4>Projetos criativos e alinhados com as últimas tendências</h4>
+            <h4>Execução impecável por uma equipe experiente e apaixonada</h4>
+            <h4>Cenários perfeitos para fotos inesquecíveis</h4>
+        </div>
+       <img src="https://i.imgur.com/jkbSWHb.jpeg" alt="Foto da decoração Cravo e Canela">
+
+    </section>
+
+    <section id="galeria" class="gallery">
+    <h2 class="fade-in">Galeria de Inspirações</h2>
+    <div class="gallery-grid">
+
+        <div class="gallery-item">
+            <img src="https://i.imgur.com/5EO0OlR.jpeg" alt="Detalhe da decoração Cravo e Canela">
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://i.imgur.com/79p0aeI.jpeg" alt="Arranjo floral Cravo e Canela">
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://i.imgur.com/jkbSWHb.jpeg" alt="Foto da decoração Cravo e Canela">
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://i.imgur.com/sQSeTaF.jpeg" alt="Decoração Cravo e Canela em evento especial">
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://i.imgur.com/35CEDSm.jpeg" alt="Decoração Cravo e Canela em casamento">
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://i.imgur.com/81tlTcH.jpeg" alt="Imagem da decoração Cravo e Canela">
+        </div>
+
+    </div>
+</section>
+
+
+    <section id="depoimentos" class="testimonials">
+        <h2 class="fade-in">O que Nossos Clientes Dizem</h2>
+        <div class="testimonials-container fade-in">
+            <div class="testimonial-slide active">
+                <p class="testimonial-text">"Foi tudo perfeito! A decoração superou todas as nossas expectativas. Obrigada Cravo e Canela por tanto carinho e profissionalismo!"</p>
+                <p class="testimonial-author">- Mariana & João</p>
+            </div>
+            <div class="testimonial-slide">
+                <p class="testimonial-text">"Não tenho palavras para descrever a emoção ao ver a igreja e o salão. Estava um sonho! Vocês são incríveis."</p>
+                <p class="testimonial-author">- Beatriz & Ricardo</p>
+            </div>
+            <div class="testimonial-slide">
+                <p class="testimonial-text">"O melhor investimento do nosso casamento. A decoração fez toda a diferença e rendeu as fotos mais lindas da vida. Recomendo de olhos fechados!"</p>
+                <p class="testimonial-author">- Livia & Fernando</p>
+            </div>
+            <div class="dots-container"></div>
+        </div>
+    </section>
+
+    <section id="contato" class="contact">
+        <h2 class="fade-in">Vamos Realizar seu Sonho?</h2>
+        <form id="whatsapp-form" class="contact-form fade-in">
+            <input type="text" id="form-name" name="name" placeholder="Seu Nome Completo" required>
+            <input type="email" id="form-email" name="email" placeholder="Seu Melhor E-mail" required>
+            <textarea id="form-message" name="message" placeholder="Conte-nos um pouco sobre seu evento (data, local, estilo)..." required></textarea>
+            <button type="submit" class="form-submit-btn">Enviar Mensagem via WhatsApp</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <div class="social-icons">
+        <a href="https://www.instagram.com/floriculturacravoecanela" target="_blank" title="Instagram"><i class='bx bxl-instagram-alt'></i></a>
+        <a href="https://www.facebook.com/SEU_USUARIO_AQUI" target="_blank" title="Facebook"><i class='bx bxl-facebook-square'></i></a>
+        <a href="https://wa.me/5519999439476" target="_blank" title="WhatsApp"><i class='bx bxl-whatsapp'></i></a>
+    </div>
+    <p>Cravo e Canela Decorações</p>
+    <p>AV. MADRE M. TEODORA, 220 PAULISTA - PIRACICABA, SP | (19) 999439476</p>
+    <p>&copy; 2025 Cravo e Canela - Todos os direitos reservados.</p>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // --- Animação da Barra de Navegação ao Rolar ---
+        const nav = document.getElementById('navbar');
+        if (nav) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        }
+        
+        // --- Animação de Elementos ao Rolar (Fade-in) ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const elementsToAnimate = document.querySelectorAll('.fade-in');
+        elementsToAnimate.forEach(el => observer.observe(el));
+        
+        // --- Carrossel de Depoimentos ---
+        const slides = document.querySelectorAll('.testimonial-slide');
+        const dotsContainer = document.querySelector('.dots-container');
+        let currentSlide = 0;
+        let slideInterval;
+
+        if (slides.length > 0) {
+            slides.forEach((slide, index) => {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    showSlide(index);
+                    resetInterval();
+                });
+                dotsContainer.appendChild(dot);
+            });
+
+            const dots = document.querySelectorAll('.dot');
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active');
+                    dots[i].classList.remove('active');
+                });
+                slides[index].classList.add('active');
+                dots[index].classList.add('active');
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                let newIndex = currentSlide + 1;
+                if (newIndex >= slides.length) { newIndex = 0; }
+                showSlide(newIndex);
+            }
+
+            function startInterval() {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+            
+            function resetInterval() {
+                clearInterval(slideInterval);
+                startInterval();
+            }
+
+            showSlide(0);
+            startInterval();
+        }
+
+        // --- SCRIPT: Formulário para WhatsApp ---
+        const form = document.getElementById('whatsapp-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const phoneNumber = '5519999439476';
+            const name = document.getElementById('form-name').value;
+            const email = document.getElementById('form-email').value;
+            const message = document.getElementById('form-message').value;
+            const whatsappMessage = `Olá! Gostaria de um orçamento.\n\n*Nome:* ${name}\n*E-mail:* ${email}\n\n*Mensagem:*\n${message}`;
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+    });
+</script>
+
+</body>
+</html>
