@@ -221,12 +221,14 @@
             transform: scale(1.03) translateY(-5px);
             box-shadow: 0 12px 35px rgba(0,0,0,0.12);
         }
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    justify-items: center; /* Centraliza as imagens na célula */
+    padding: 0 10px;
+}
 
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
 
         .gallery-item {
             position: relative;
