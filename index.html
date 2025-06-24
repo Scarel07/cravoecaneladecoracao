@@ -771,7 +771,8 @@ A mesa do bolo, todas as mesas decoradas, como te falei, achei que ficou parecen
         <h2 class="fade-in">Vamos Realizar seu Sonho?</h2>
         <form id="whatsapp-form" class="contact-form fade-in">
             <input type="text" id="form-name" name="name" placeholder="Seu Nome Completo" required>
-            <textarea id="form-message" name="message" placeholder="Seu melhor WhatsApp" required></textarea>
+            <input type="tel" id="form-phone" name="telefone" placeholder="Seu celular" required>
+
             <textarea id="form-message" name="message" placeholder="Conte-nos um pouco sobre seu evento (data, local, estilo)..." required></textarea>
             <button type="submit" class="form-submit-btn">Enviar Mensagem via WhatsApp</button>
         </form>
@@ -791,27 +792,104 @@ A mesa do bolo, todas as mesas decoradas, como te falei, achei que ficou parecen
 </footer>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('whatsapp-form');
+    document.addEventListener('DOMContentLoaded', function() {
 
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
+        // --- Animação da Barra de Navegação ao Rolar ---
+        const nav = document.getElementById('navbar');
+        if (nav) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        }
+        
+        // --- Animação de Elementos ao Rolar (Fade-in) ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
 
-            const phoneNumber = '5519999439476'; // Número do WhatsApp (com DDI e DDD)
-            const name = document.getElementById('form-name').value;
-            const phone = document.getElementById('form-phone').value;
-            const message = document.getElementById('form-message').value;
+        const elementsToAnimate = document.querySelectorAll('.fade-in');
+        elementsToAnimate.forEach(el => observer.observe(el));
+        
+        // --- Carrossel de Depoimentos ---
+        const slides = document.querySelectorAll('.testimonial-slide');
+        const dotsContainer = document.querySelector('.dots-container');
+        let currentSlide = 0;
+        let slideInterval;
 
-            const whatsappMessage = `Olá! Gostaria de um orçamento.\n\n*Nome:* ${name}\n*Telefone:* ${phone}\n\n*Mensagem:*\n${message}`;
-            const encodedMessage = encodeURIComponent(whatsappMessage);
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+        if (slides.length > 0) {
+            slides.forEach((slide, index) => {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    showSlide(index);
+                    resetInterval();
+                });
+                dotsContainer.appendChild(dot);
+            });
 
-            window.open(whatsappUrl, '_blank');
-        });
+            const dots = document.querySelectorAll('.dot');
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active');
+                    dots[i].classList.remove('active');
+                });
+                slides[index].classList.add('active');
+                dots[index].classList.add('active');
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                let newIndex = currentSlide + 1;
+                if (newIndex >= slides.length) { newIndex = 0; }
+                showSlide(newIndex);
+            }
+
+            function startInterval() {
+                slideInterval = setInterval(nextSlide, 8000);
+            }
+            
+            function resetInterval() {
+                clearInterval(slideInterval);
+                startInterval();
+            }
+
+            showSlide(0);
+            startInterval();
+        }
+// --- Formulário para WhatsApp ---
+const form = document.getElementById('whatsapp-form');
+if (form) {
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const phoneNumber = '5519999439476'; // número do WhatsApp de destino
+        const name = document.getElementById('form-name').value;
+        const phone = document.getElementById('form-phone').value;
+        const message = document.getElementById('form-message').value;
+
+        const whatsappMessage = `Olá! Gostaria de um orçamento.\n\n*Nome:* ${name}\n*Celular:* ${phone}\n\n*Mensagem:*\n${message}`;
+        const encodedMessage = encodeURIComponent(whatsappMessage);
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+        window.open(whatsappUrl, '_blank');
+    });
+}
+
+       
+
     });
 </script>
-
-
 
 </body>
 </html>
